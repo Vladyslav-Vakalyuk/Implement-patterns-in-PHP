@@ -1,12 +1,11 @@
 <?php
 
-$personRepository = new PersonRepository;
+/**
+ * @var PersonRepositoryInterface
+ */
+$dbPersonRepository = new DbPersonRepository();
 
-$lowerCaseReadPersonDecorator = new LowerCaseReadPersonDecorator;
-$lowerCaseReadPersonDecorator->setPersonRepository( $personRepository );
+$lowerCaseReadPersonRepositoryDecorator = new LowerCaseReadPersonRepositoryDecorator($dbPersonRepository);
 
-$readPerson = $lowerCaseReadPersonDecorator->readPerson();
+$uppercaseWritePersonRepositoryDecorator = new UppercaseWritePersonRepositoryDecorator($lowerCaseReadPersonRepositoryDecorator);
 
-$uppercaseWritePersonDecorator = new UppercaseWritePersonDecorator;
-$uppercaseWritePersonDecorator->setPersonRepository( $readPerson );
-$wrotePerson = $uppercaseWritePersonDecorator->writePerson();
